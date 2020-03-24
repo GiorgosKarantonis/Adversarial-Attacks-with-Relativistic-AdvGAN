@@ -1,4 +1,4 @@
-# Adversarial-Attacks
+# Adversarial Attacks on Image Classifiers
 
 ## Introduction
 Large Datasets and powerful computers have made Neural Networks the go to architecture for AI applications to a point that even people without scientific knowledge can utilize them. One highly contributing factor to the rise of Neural Networks is their ability to act as impressively good classifiers, meaning that after proper training a Neural Network is able to classify unseen data points so well that some models can beat even human performance. 
@@ -20,7 +20,10 @@ In a more practical side, the authors of the paper "Robust Physical-World Attack
 /* STOP SIGNS IMAGE */
 
 
-# Performing Adversarial Attacks
+## Performing Adversarial Attacks
+
+
+### Dealing with Black Box Settings
 
 
 # Generative Adversarial Networks
@@ -30,6 +33,8 @@ Generative Adversarial Networks or GANs are one the hottest models in generative
 
 -Description of GANs
 -Problems with GANs (convergence and mode collapse)
--GANs in Adversarial Attacks (AdvGAN)
+
+
+# Performing Adversarial Attacks with GANs
 
 

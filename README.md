@@ -19,7 +19,7 @@ In a more practical side, the authors of the paper "Robust Physical-World Attack
 
 /* STOP SIGNS IMAGE */
 
-# Generative Models
+# Generative Adversarial Networks
 
 
 

@@ -5,7 +5,7 @@ Large Datasets and powerful computers have made Neural Networks the go to archit
 
 
 ## What are Adversarial Examples and Adversarial Attacks
-An adversarial example is a perturbed version of an actual data point that although it seems similar or even identical to the original data point, it can trick a neural network into misclassifying it. The are two major ways to create adversarial examples; to either perform proper perturbations to the original example or to craft a suitable mask and apply it to the original example. 
+An adversarial example is a perturbed version of an actual data point that although it seems similar or even identical to the original data point, it can trick a neural network into misclassifying it. The two major ways to create adversarial examples are to either perform proper perturbations to the original example or to craft a suitable mask and apply it to the original example. 
 
 The act of feeding an adversarial example to a Neural Network is called adversarial attack. Adversarial Attacks are divided on white box and black box depending on whether or not we know the exact model we are trying to attack and on targeted and untargeted depending on whether or not we want the adversarial example to be classified as a specific class. 
 

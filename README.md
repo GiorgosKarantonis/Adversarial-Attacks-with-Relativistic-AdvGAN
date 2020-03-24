@@ -27,7 +27,7 @@ In a more practical side, the authors of the paper "Robust Physical-World Attack
 
 
 # Generative Adversarial Networks
-The basic assumption of all generative models is that the observed data are just a sample of a larger distribution. Such models try to either calculate or approximate this distribution and assuming a generative model has managed to approximate efficiently this distribution we could be able to sample new data points from it. This could allow to perform style transfer (examples), to create new realities in to better train reinforcement learning models and much more. 
+The basic assumption of all generative models is that the observed data are just a sample of a larger distribution. Such models try to either calculate or approximate this distribution so that we could be able to sample new data points from it. This could allow to perform style transfer (examples), to create new realities in to better train reinforcement learning models and much more. 
 
 Generative Adversarial Networks or GANs are one the hottest models in generative modelling right now because the have achieved revolutionary results in this field. 
 

@@ -84,11 +84,11 @@ https://arxiv.org/pdf/1710.08864.pdf
 Fast Gradient Sign Method:
 https://arxiv.org/pdf/1412.6572.pdf
 
-AdvGAN:
-https://arxiv.org/pdf/1801.02610.pdf
-
 Spatially Transformed Adversarial Examples:
 https://arxiv.org/pdf/1801.02612.pdf
+
+AdvGAN:
+https://arxiv.org/pdf/1801.02610.pdf
 
 VEEGAN:
 https://arxiv.org/pdf/1705.07761.pdf

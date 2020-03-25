@@ -63,41 +63,41 @@ Adversarial training is nothing more than simply augmenting a training set with 
 
 
 ## Useful Papers
-Review of Adversarial Attack Techniques and Defenses
+Review of Adversarial Attack Techniques and Defenses:
 https://arxiv.org/pdf/1909.08072.pdf
 
-Knowledge Distillation
+Knowledge Distillation:
 https://arxiv.org/pdf/1503.02531.pdf
 
-Defensive Distillation
+Defensive Distillation:
 https://arxiv.org/pdf/1511.04508.pdf
 
-Projected Gradient Descent
+Projected Gradient Descent:
 https://arxiv.org/pdf/1706.06083.pdf
 
-Black Box Attacks
+Black Box Attacks:
 https://arxiv.org/pdf/1602.02697.pdf
 
-One Pixel Attack
+One Pixel Attack:
 https://arxiv.org/pdf/1710.08864.pdf
 
-Fast Gradient Sign Method
+Fast Gradient Sign Method:
 https://arxiv.org/pdf/1412.6572.pdf
 
-AdvGAN
+AdvGAN:
 https://arxiv.org/pdf/1801.02610.pdf
 
-Spatially Transformed Adversarial Examples
+Spatially Transformed Adversarial Examples:
 https://arxiv.org/pdf/1801.02612.pdf
 
-VEEGAN
+VEEGAN:
 https://arxiv.org/pdf/1705.07761.pdf
 
-BiGAN
+BiGAN:
 https://arxiv.org/pdf/1605.09782.pdf
 
-WGAN
+WGAN:
 https://arxiv.org/pdf/1701.07875.pdf
 
-RSGAN
+RSGAN:
 https://openreview.net/pdf?id=S1erHoR5t7

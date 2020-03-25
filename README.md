@@ -24,17 +24,16 @@ In a more practical side, the authors of the paper "Robust Physical-World Attack
 
 ## Performing Adversarial Attacks on Image Classifiers
 ### Fast Gradient Sign Method
-One of the simplest ways to perform adversarial attacks is the Fast Gradient Sign Method(FGSM) which is a non-iterative method proposed by Ian Goodfellow et al.. The idea behind this method is to take a step defined by a hyperparameter, epsilon, towards the direction that is defined by the gradient of the loss function with respect to the example. . Due to the fact that this method is a non iterative one and its function relies solely on the hyperparamer epsilon and the direction that is obtained by the gradient, its main contribution is the exposure of the existance of adversarial examples and cannot be considered a proper way to perform adversarial attacks. 
+One of the simplest ways to perform adversarial attacks is the Fast Gradient Sign Method(FGSM) which is a non-iterative method proposed by Ian Goodfellow et al.. The idea behind this method is to take a step the size of which is defined by a hyperparameter, epsilon, towards the direction that is defined by the gradient of the loss function with respect to the example. . Due to the fact that this method is a non iterative one and its function relies solely on the hyperparamer epsilon and the direction that is obtained by the gradient, its main contribution is the exposure of the existance of adversarial examples and cannot be considered a proper way to perform adversarial attacks. 
 
 /* EXAMPLE IMAGE OF FGSM */
 
 ### AdvGAN
 The basic assumption of all generative models is that the observed data are just a sample of a larger distribution. Such models try to either calculate or approximate this distribution so that we could be able to sample new data points from it. This could allow to perform style transfer (examples), to create new realities in to better train reinforcement learning models and much more. 
 
-Generative Adversarial Networks or GANs are one the hottest models in generative modelling right now because the have achieved revolutionary results in this field. While other popular methods like Variational Autoencoders try to assign training examples into hyperspaces, GANs take a different approach and try to learn a function capable of fooling a classifier. 
+Generative Adversarial Networks or GANs are one the hottest models in generative modelling right now because the have achieved unprecedented results. While other popular methods like Variational Autoencoders try to assign training examples into hyperspaces, GANs take a different approach and try to learn a function capable of fooling a classifier. 
 
-Although GANs have become extremely popular and a huge amount of variations over the past few years, their training can still be very challenging. One major problem of GANs is the so called mode collapse, which refers to their inability to create a variaty of realistic looking examples. If the generator realizes that a specific 
-
+Although GANs have become extremely popular and a huge amount of variations have been proposed over the past few years, their training can still be very challenging. One major problem of GANs is the so called mode collapse, which refers to their inability to create a variaty of realistic looking examples. If the generator realizes that a specific 
 -Problems with GANs (convergence and mode collapse)
 
 ### Spatially Transformed Adversarial Examples

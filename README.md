@@ -108,4 +108,4 @@ https://arxiv.org/pdf/1807.00734.pdf
 1. The mathematical derivations of the models
 2. Defensive Distillation
 3. Projected Gradient Descent vs Gradient Descent
-4. GANs (*MAYBE)
+4. *GANs

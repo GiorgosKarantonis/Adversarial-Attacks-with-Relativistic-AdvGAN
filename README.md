@@ -100,4 +100,4 @@ WGAN:
 https://arxiv.org/pdf/1701.07875.pdf
 
 RSGAN:
-https://openreview.net/pdf?id=S1erHoR5t7
+https://arxiv.org/pdf/1807.00734.pdf

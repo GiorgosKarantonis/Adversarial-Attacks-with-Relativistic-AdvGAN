@@ -62,4 +62,42 @@ Geoffrey Hinton et. al proposed a few years ago knowledge distillation as a vari
 Adversarial training is nothing more than simply augmenting a training set with adversarial examples of it, but has proven to be the most powerful defense in adversarial attack so far. The most groundbreaking discovery in adversarial training came from Madry et al. who proposed a variation of Gradient Descent called Projected Gradient Descent (PGD) to create adversarial examples. In their paper, called "Towards Deep Learning Models Resistant to Adversarial Attacks", they showed that PGD can detect all the extrema that can be found by any first order method as long as the gradient is taken only with respect to the input. Since, due to computational limitations, all the optimizations in modern Deep Learning use exclusively first order methods, it is derived that a system trained on a dataset augmented with adversarial examples created by PGD can successfully block almost every attack. The most serious constrain of this approach is the greedy nature of PGD which makes almost unfeasible to use in datasets larger than MNIST and CIFAR-10. The authors of this paper have also published their models on github under the MadryLab Challenge. 
 
 
-## Important Papers
+## Useful Papers
+Review of Adversarial Attack Techniques and Defenses
+https://arxiv.org/pdf/1909.08072.pdf
+
+Knowledge Distillation
+https://arxiv.org/pdf/1503.02531.pdf
+
+Defensive Distillation
+https://arxiv.org/pdf/1511.04508.pdf
+
+Projected Gradient Descent
+https://arxiv.org/pdf/1706.06083.pdf
+
+Black Box Attacks
+https://arxiv.org/pdf/1602.02697.pdf
+
+One Pixel Attack
+https://arxiv.org/pdf/1710.08864.pdf
+
+Fast Gradient Sign Method
+https://arxiv.org/pdf/1412.6572.pdf
+
+AdvGAN
+https://arxiv.org/pdf/1801.02610.pdf
+
+Spatially Transformed Adversarial Examples
+https://arxiv.org/pdf/1801.02612.pdf
+
+VEEGAN
+https://arxiv.org/pdf/1705.07761.pdf
+
+BiGAN
+https://arxiv.org/pdf/1605.09782.pdf
+
+WGAN
+https://arxiv.org/pdf/1701.07875.pdf
+
+RSGAN
+https://openreview.net/pdf?id=S1erHoR5t7

@@ -101,3 +101,11 @@ https://arxiv.org/pdf/1701.07875.pdf
 
 RSGAN:
 https://arxiv.org/pdf/1807.00734.pdf
+
+
+
+# NEED TO EXPAND MORE ON
+1. The mathematical derivations of the models
+2. Defensive Distillation
+3. Projected Gradient Descent vs Gradient Descent
+4. GANs (*MAYBE)

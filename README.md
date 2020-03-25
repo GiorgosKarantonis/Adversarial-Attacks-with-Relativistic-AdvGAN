@@ -26,7 +26,6 @@ In a more practical side, the authors of the paper "Robust Physical-World Attack
 ### Fast Gradient Sign Method
 One of the simplest ways to perform adversarial attacks is the Fast Gradient Sign Method(FGSM) which is a non-iterative method proposed by Ian Goodfellow et al.. The idea behind this method is to take a step the size of which is defined by a hyperparameter, epsilon, towards the direction that is defined by the gradient of the loss function with respect to the example. . Due to the fact that this method is a non iterative one and its function relies solely on the hyperparamer epsilon and the direction that is obtained by the gradient, its main contribution is the exposure of the existance of adversarial examples and cannot be considered a proper way to perform adversarial attacks. 
 
-/* EXAMPLE IMAGE OF FGSM */
 ![panda-gibbon](https://github.com/GiorgosKarantonis/Adversarial-Attacks/blob/master/img/panda_gibbon.png)
 
 ### AdvGAN
@@ -36,6 +35,9 @@ Generative Adversarial Networks or GANs are one the hottest models in generative
 
 Although GANs have become extremely popular and a huge amount of variations have been proposed over the past few years, their training can still be very challenging. One major problem of GANs is the so called mode collapse, which refers to their inability to create a variaty of realistic looking examples. If the generator realizes that a specific 
 -Problems with GANs (convergence and mode collapse)
+
+![strawberry](https://github.com/GiorgosKarantonis/Adversarial-Attacks/blob/master/img/strawberry.png)
+![buckeye](https://github.com/GiorgosKarantonis/Adversarial-Attacks/blob/master/img/buckeye.png)
 
 ### Spatially Transformed Adversarial Examples
 

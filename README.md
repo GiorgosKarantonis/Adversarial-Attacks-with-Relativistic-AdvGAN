@@ -5,7 +5,7 @@ Large Datasets and powerful computers have made Neural Networks the go to archit
 
 
 ## What are Adversarial Examples and Adversarial Attacks
-An adversarial example is a perturbed version of an actual data point that looks similar or even identical to the original data point but at the same time it can trick a neural network into misclassifying it. It is straightforward to also define an adversarial attack as the act of crafting adversarial examples and feeding them to a Neural Network. The two major ways to create adversarial examples are to either directly perform  perturbations to the original example or to craft a suitable mask and apply it to the original example. 
+An adversarial example is a perturbed version of an actual data point that looks similar or even identical to the original data point but at the same time it can trick a neural network into misclassifying it. It is straightforward to also define an adversarial attack as the act of crafting adversarial examples and feeding them to a Neural Network. The two major ways to create adversarial examples are to either directly perform  perturbations to the original example or to craft a suitable mask and apply it to the original example. One impressive aspect of the creation of adversarial examples is exposed by the "One Pixel Attack" which showed that in some cases even the perturbation of a single pixel can generate an adversarial example. 
 
 /* EXAMPLE IMAGES OF ADVERSARIAL ATTACKS */
 
@@ -19,7 +19,7 @@ From a theoretical point of view the utter goal of Neural Networks is not to ach
 
 In a more practical side, the authors of the paper "Robust Physical-World Attacks on Deep Learning Visual Classification" showed that they were able to trick neural networks to misclassify stop signs during driving by performing slight physical perturbation to actual stop signs. The physical perturbations were performed using graffity or by applying proper stickers to the signs but in a way that a human could still correctly identify the stop signs. Considering that we are in a time that self driving cars are getting more and more into our lives makes it obvious how that adversatial attacks can impose an actual and life threatening danger. 
 
-![stop_sign](https://github.com/GiorgosKarantonis/Adversarial-Attacks/blob/master/img/stop_sign.png)
+![stop sign](https://github.com/GiorgosKarantonis/Adversarial-Attacks/blob/master/img/stop_sign.png)
 
 
 ## Performing Adversarial Attacks on Image Classifiers
@@ -27,6 +27,7 @@ In a more practical side, the authors of the paper "Robust Physical-World Attack
 One of the simplest ways to perform adversarial attacks is the Fast Gradient Sign Method(FGSM) which is a non-iterative method proposed by Ian Goodfellow et al.. The idea behind this method is to take a step the size of which is defined by a hyperparameter, epsilon, towards the direction that is defined by the gradient of the loss function with respect to the example. . Due to the fact that this method is a non iterative one and its function relies solely on the hyperparamer epsilon and the direction that is obtained by the gradient, its main contribution is the exposure of the existance of adversarial examples and cannot be considered a proper way to perform adversarial attacks. 
 
 /* EXAMPLE IMAGE OF FGSM */
+![panda-gibbon](https://github.com/GiorgosKarantonis/Adversarial-Attacks/blob/master/img/panda_gibbon.png)
 
 ### AdvGAN
 The basic assumption of all generative models is that the observed data are just a sample of a larger distribution. Such models try to either calculate or approximate this distribution so that we could be able to sample new data points from it. This could allow to perform style transfer (examples), to create new realities in to better train reinforcement learning models and much more. 

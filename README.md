@@ -7,7 +7,9 @@ Large Datasets and powerful computers have made Neural Networks the go to archit
 ## What are Adversarial Examples and Adversarial Attacks
 An adversarial example is a perturbed version of an actual data point that looks similar or even identical to the original data point but at the same time it can trick a neural network into misclassifying it. It is straightforward to also define an adversarial attack as the act of crafting adversarial examples and feeding them to a Neural Network. The two major ways to create adversarial examples are to either directly perform  perturbations to the original example or to craft a suitable mask and apply it to the original example. One impressive aspect of the creation of adversarial examples is exposed by the "One Pixel Attack" which showed that in some cases even the perturbation of a single pixel can generate an adversarial example. 
 
-/* EXAMPLE IMAGES OF ADVERSARIAL ATTACKS */
+![pig](https://github.com/GiorgosKarantonis/Adversarial-Attacks/blob/master/img/pig.png)
+![macaw](https://github.com/GiorgosKarantonis/Adversarial-Attacks/blob/master/img/macaw.png)
+![duck](https://github.com/GiorgosKarantonis/Adversarial-Attacks/blob/master/img/duck.png)
 
 
 ## Why should we care
@@ -28,7 +30,7 @@ Targeted attacks are deployed by detecting the second most probable class of an 
 Although it would be ideal to know the exact model that we want to attack, in real case applications this is almost impossible. Thus most of the attacks performed in the real world fall into the black box category, but this doesn't mean that we should simply discard the white box setting. In research, we may have knowledge about some models and try to attack them in order to evaluate the performance of a adversarial attack model. Apart from that even in the real world we may know that a target model is based on an existing model, for which we have some knowledge, and leverage this knowledge to better approximate the target model architecture. In the case where we want to attack a completely unknown model, meaning we want to perform a black box attack, the workaround is to first try to approximate the target model by feeding it various examples and observing the results. Since a trained Neural Network is nothing more than a learned function, we can approximate this function to some extent with good results in some cases. 
 
 ### Fast Gradient Sign Method
-One of the simplest ways to perform adversarial attacks is the Fast Gradient Sign Method(FGSM) which is a non-iterative method proposed by Ian Goodfellow et al.. The idea behind this method is to take a step the size of which is defined by a hyperparameter, epsilon, towards the direction that is defined by the gradient of the loss function with respect to the example. . Due to the fact that this method is a non iterative one and its function relies solely on the hyperparamer epsilon and the direction that is obtained by the gradient, its main contribution is the exposure of the existance of adversarial examples and cannot be considered a proper way to perform adversarial attacks. 
+One of the simplest ways to construct adversarial examples is the Fast Gradient Sign Method(FGSM), a non-iterative method presented in the paper "Explaining and Harnessing Adversarial Examples". The idea behind this method is to take a step the size of which is defined by a hyperparameter, epsilon, towards the direction that is defined by the gradient of the loss function with respect to the example. . Due to the fact that this method is a non iterative one and its function relies solely on the hyperparamer epsilon and the direction that is obtained by the gradient, its main contribution is the exposure of the existance of adversarial examples and cannot be considered a proper way to perform adversarial attacks. 
 
 ![panda-gibbon](https://github.com/GiorgosKarantonis/Adversarial-Attacks/blob/master/img/panda_gibbon.png)
 
@@ -49,7 +51,11 @@ Although GANs have become extremely popular and a huge amount of variations have
 
 
 ## Defending Against Adversarial Attacks
-Since the discovery of adversarial examples many algorithms have been proposed but it wasn't until Madry et al. proposed a variation of Gradient Descent called Projected Gradient Descent (PGD) . In their paper, called "Towards Deep Learning Models Resistant to Adversarial Attacks", they provided a mathematical proof showing that PGD can detect all the extrema that can be found than any first order method. It is derived from their discovery that PGD can create the most powerful adversarial examples and thus a system trained on a dataset augmented with such adversarial examples can successfully block most of the adversarial attacks. 
+Two main methods have shown the most promising results in defending against adversarial attacks; defensive distilation and adversarial training. 
+
+Geoffrey Hinton et. al proposed a few years ago knowledge distilation as a variation of the original softmax where the logits of a network are divided by a variable, T, called temperature. The result of this is that for temperature values larger than 1 the softmax output tend to be less hard and as T approaches infinity the softmax outputs approach the uniform distribution. 
+
+Adversarial training is nothing more than simply augmenting a training set with adversarial examples of it, but has proven to be the most powerful defense in adversarial attack so far. The most groundbreaking discovery in adversarial training came from Madry et al. who proposed a variation of Gradient Descent called Projected Gradient Descent (PGD) to create adversarial examples. In their paper, called "Towards Deep Learning Models Resistant to Adversarial Attacks", they showed that PGD can detect all the extrema that can be found by any first order method as long as the gradient is taken only with respect to the input. Since, due to computational limatations, all the optimazitions in modern Deep Learning use exclusively first order methods, it is derived that a system trained on a dataset augmented with adversarial examples created by PGD can successfully block almost every attack. The most serious constrain of this approach is the greedy nature of PGD which makes almost unfeasible to use in datasets larger than MNIST and CIFAR-10. 
 
 
 

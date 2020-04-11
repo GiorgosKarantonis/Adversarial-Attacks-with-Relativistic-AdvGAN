@@ -12,7 +12,7 @@ An adversarial example is a perturbed version of an actual data point that looks
 ![duck](https://github.com/GiorgosKarantonis/Adversarial-Attacks/blob/master/img/duck.png)
 
 
-## Why should we care
+## Why we should care
 The search for adversarial examples allows for better evaluation of deep models and gives us a better understanding of how they actually learn; do they tend to simple memorize patterns or do they understand, at least to some extent, high level concepts?
 
 From a theoretical point of view the utter goal of Neural Networks is not to achieve high accuracy on the training set, but to be able to be able generalize well on unseen data. This implies that the training data can be seen as a sample from a larger distribution and thus the goal is to approximate this distribution as efficiently as possible, meaning that the classes' boundaries need to be be as accurate as possible. The robustness against adversarial attacks can thus give further insight on how accurate the learned function actually is. 

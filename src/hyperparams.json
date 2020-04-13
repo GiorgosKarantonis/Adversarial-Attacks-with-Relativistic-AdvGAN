@@ -1,0 +1,21 @@
+{
+	"target_dataset" : "MNIST", 
+	"target_learning_rate" : 0.001, 
+	"target_model_epochs" : 40, 
+
+	"maximum_perturbation_allowed" : "Auto", 
+
+	"AdvGAN_epochs" : 60, 
+	"AdvGAN_learning_rate" : 0.001, 
+	"alpha" : 10, 
+	"beta" : 1, 
+	"gamma" : 1, 
+	"kappa" : 0, 
+	"c" : 0.1, 
+	"D_number_of_steps_per_batch" : 1, 
+	"G_number_of_steps_per_batch" : 1, 
+	"box_min" : 0, 
+	"box_max" : 1, 
+	"use_clipping_trick" : "True", 
+	"is_relativistic" : "True"
+}

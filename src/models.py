@@ -50,14 +50,15 @@ class Discriminator(nn.Module):
             nn.BatchNorm2d(32),
             nn.LeakyReLU(0.2),
             nn.Conv2d(32, 1, 1),
-            nn.Sigmoid()
             # 32*1*1
         ]
         self.model = nn.Sequential(*model)
+        self.sigmoid = nn.Sigmoid()
 
     def forward(self, x):
-        output = self.model(x).squeeze()
-        return output
+        logits = self.model(x)
+        output = self.sigmoid(logits).squeeze()
+        return logits, output
 
 
 class Generator(nn.Module):

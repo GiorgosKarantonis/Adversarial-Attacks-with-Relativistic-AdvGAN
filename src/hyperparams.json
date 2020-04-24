@@ -5,6 +5,7 @@
 
 	"maximum_perturbation_allowed" : "Auto", 
 
+	"force_train" : "False", 
 	"AdvGAN_epochs" : 60, 
 	"AdvGAN_learning_rate" : 0.001, 
 	"alpha" : 10, 

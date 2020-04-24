@@ -103,23 +103,23 @@ class AdvGAN_Attack:
 
             self.optimizer_D.zero_grad()
             
-            pred_real = self.D(x)
-            pred_fake = self.D(adv_images.detach())
+            logits_real, pred_real = self.D(x)
+            logits_fake, pred_fake = self.D(adv_images.detach())
 
             real = torch.ones_like(pred_real, device=self.device)
             fake = real = torch.zeros_like(pred_fake, device=self.device)
 
             if self.is_relativistic:
-                loss_D = (torch.mean((pred_real - torch.mean(pred_fake) - real)**2) + torch.mean((pred_fake - torch.mean(pred_real) + fake)**2)) / 2
-                
-                loss_D.backward(retain_graph=True)
+                loss_D_real = torch.mean((logits_real - torch.mean(logits_fake) - real)**2)
+                loss_D_fake = torch.mean((logits_fake - torch.mean(logits_real) + real)**2)
+
+                loss_D = (loss_D_fake + loss_D_real) / 2
             else:
                 loss_D_real = F.mse_loss(pred_real, real)
                 loss_D_fake = F.mse_loss(pred_fake, fake)
                 loss_D = loss_D_fake + loss_D_real
 
-                loss_D.backward()
-
+            loss_D.backward()
             self.optimizer_D.step()
 
         # optimize G
@@ -142,19 +142,17 @@ class AdvGAN_Attack:
             loss_adv = torch.sum(loss_adv)
 
             # the GAN Loss part of L
-            pred_fake = self.D(adv_images)
+            logits_real, pred_real = self.D(x)
+            logits_fake, pred_fake = self.D(adv_images)
 
             if self.is_relativistic:
-                loss_G_gan = (torch.mean((pred_real - torch.mean(pred_fake) + real)**2) + torch.mean((pred_fake - torch.mean(pred_real) - real)**2)) / 2
-                loss_G = self.gamma * loss_adv + self.alpha * loss_G_gan + self.beta * loss_hinge
-
-                loss_G.backward(retain_graph=True)
+                loss_G_gan = (torch.mean((logits_real - torch.mean(logits_fake) + real)**2) + torch.mean((logits_fake - torch.mean(logits_real) - real)**2)) / 2
             else:
                 loss_G_gan = F.mse_loss(pred_fake, torch.ones_like(pred_fake, device=self.device))
-                loss_G = self.gamma * loss_adv + self.alpha * loss_G_gan + self.beta * loss_hinge
 
-                loss_G.backward()
-            
+
+            loss_G = self.gamma * loss_adv + self.alpha * loss_G_gan + self.beta * loss_hinge
+            loss_G.backward()
             self.optimizer_G.step()
 
         return loss_D.item(), loss_G.item(), loss_G_gan.item(), loss_hinge.item(), loss_adv.item()

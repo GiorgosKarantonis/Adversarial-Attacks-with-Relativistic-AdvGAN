@@ -1,6 +1,8 @@
 import os
 import json
 
+import numpy as np
+
 import torch
 import torchvision.datasets
 import torch.nn.functional as F
@@ -29,9 +31,18 @@ def create_required_directories():
     if not os.path.exists('./checkpoints/target/'):
         os.makedirs('./checkpoints/target/')
 
+    if not os.path.exists('./npy/MNIST/'):
+        os.makedirs('./npy/MNIST/')
+
+    if not os.path.exists('./npy/CIFAR10/'):
+        os.makedirs('./npy/CIFAR10/')
+
 
 def test_attack_performance(target, dataloader, mode, adv_GAN, target_model, batch_size, l_inf_bound, dataset_size):
     n_correct = 0
+
+    true_labels, pred_labels = [], []
+    img_np, adv_img_np = [], []
     for i, data in enumerate(dataloader, 0):
         img, true_label = data
         img, true_label = img.to(device), true_label.to(device)
@@ -45,9 +56,25 @@ def test_attack_performance(target, dataloader, mode, adv_GAN, target_model, bat
         pred_label = torch.argmax(target_model(adv_img), 1)
         n_correct += torch.sum(pred_label == true_label, 0)
 
-        print('Saving images for batch {} out of {}'.format(i, len(dataLoader)))
+        true_labels.append(true_label.cpu().numpy())
+        pred_labels.append(pred_label.cpu().numpy())
+        img_np.append(img.detach().permute(0, 2, 3, 1).cpu().numpy())
+        adv_img_np.append(adv_img.detach().permute(0, 2, 3, 1).cpu().numpy())
+
+        print('Saving images for batch {} out of {}'.format(i+1, len(dataloader)))
         for j in range(adv_img.shape[0]):
             save_image(adv_img[j], './results/examples/{}/{}/example_{}_{}.png'.format(target, mode, i, j))
+
+
+    true_labels = np.concatenate(true_labels, axis=0)
+    pred_labels = np.concatenate(pred_labels, axis=0)
+    img_np = np.concatenate(img_np, axis=0)
+    adv_img_np = np.concatenate(adv_img_np, axis=0)
+
+    np.save('./npy/{}/true_labels'.format(target), true_labels)
+    np.save('./npy/{}/pred_labels'.format(target), pred_labels)
+    np.save('./npy/{}/img_np'.format(target), img_np)
+    np.save('./npy/{}/adv_img_np'.format(target), adv_img_np)
 
     print(target)
     print('Correctly Classified: ', n_correct.item())
@@ -131,6 +158,7 @@ LR_TARGET_MODEL = hyperparams['target_learning_rate']
 EPOCHS_TARGET_MODEL = hyperparams['target_model_epochs']
 L_INF_BOUND = hyperparams['maximum_perturbation_allowed']
 
+FORCE_TRAIN = hyperparams['force_train']
 EPOCHS = hyperparams['AdvGAN_epochs']
 LR = hyperparams['AdvGAN_learning_rate']
 ALPHA = hyperparams['alpha']
@@ -143,7 +171,11 @@ N_STEPS_G = hyperparams['G_number_of_steps_per_batch']
 BOX_MIN = hyperparams['box_min']
 BOX_MAX = hyperparams['box_max']
 CLIPPING_TRICK = hyperparams['use_clipping_trick']
-IS_RELATIVISTIC = hyperparams['is_relativistic']
+
+if hyperparams['is_relativistic'] == "True":
+    IS_RELATIVISTIC = True
+else:
+    IS_RELATIVISTIC = False
 
 
 create_required_directories()
@@ -204,7 +236,7 @@ advGAN = AdvGAN_Attack(
     clipping_trick=CLIPPING_TRICK, 
     is_relativistic=IS_RELATIVISTIC
 )
-advGAN.train(train_dataloader, EPOCHS)
+# advGAN.train(train_dataloader, EPOCHS)
 
 
 # load the trained AdvGAN
@@ -217,9 +249,6 @@ adv_GAN.eval()
 
 print('\nTESTING PERFORMANCE OF ADVGAN\n')
 test_attack_performance(target=TARGET, dataloader=test_dataloader, mode='test', adv_GAN=adv_GAN, target_model=target_model, batch_size=batch_size, l_inf_bound=l_inf_bound, dataset_size=len(test_dataset))
-
-
-print('\nTESTING ON MADRYLAB CHALLENGE!\n')
 
 
 

@@ -40,8 +40,6 @@ class AdvGAN_Attack:
                 n_channels, 
                 target, 
                 lr, 
-                box_min, 
-                box_max, 
                 l_inf_bound, 
                 alpha, 
                 beta, 
@@ -50,7 +48,6 @@ class AdvGAN_Attack:
                 c, 
                 n_steps_D, 
                 n_steps_G, 
-                clipping_trick, 
                 is_relativistic
             ):
         self.device = device
@@ -58,18 +55,20 @@ class AdvGAN_Attack:
         self.model = model
         
         self.target = target
+
         self.lr = lr
-        self.box_min = box_min
-        self.box_max = box_max
+
         self.l_inf_bound = l_inf_bound
+
         self.alpha = alpha
         self.beta = beta
         self.gamma = gamma
         self.kappa = kappa
         self.c = c
+
         self.n_steps_D = n_steps_D
         self.n_steps_G = n_steps_G
-        self.clipping_trick = clipping_trick
+
         self.is_relativistic = is_relativistic
 
         self.G = models.Generator(n_channels, n_channels).to(device)
@@ -94,14 +93,12 @@ class AdvGAN_Attack:
         # optimize D
         for i in range(self.n_steps_D):
             perturbation = self.G(x)
+            perturbation = perturbation[:, :, :x.shape[2], :x.shape[3]]
 
-            # add a clipping trick
             adv_images = torch.clamp(perturbation, -self.l_inf_bound, self.l_inf_bound) + x
+            adv_images = torch.clamp(adv_images, 0, 1)
 
-            if self.clipping_trick:
-                adv_images = torch.clamp(adv_images, self.box_min, self.box_max)
-
-            self.optimizer_D.zero_grad()
+            self.D.zero_grad()
             
             logits_real, pred_real = self.D(x)
             logits_fake, pred_fake = self.D(adv_images.detach())
@@ -110,13 +107,14 @@ class AdvGAN_Attack:
             fake = real = torch.zeros_like(pred_fake, device=self.device)
 
             if self.is_relativistic:
+                # loss_D = F.binary_cross_entropy_with_logits(logits_real.reshape(-1) - logits_fake.reshape(-1), real)
                 loss_D_real = torch.mean((logits_real - torch.mean(logits_fake) - real)**2)
                 loss_D_fake = torch.mean((logits_fake - torch.mean(logits_real) + real)**2)
 
                 loss_D = (loss_D_fake + loss_D_real) / 2
             else:
-                loss_D_real = F.mse_loss(pred_real, real)
-                loss_D_fake = F.mse_loss(pred_fake, fake)
+                loss_D_real = F.mse_loss(pred_real, torch.ones_like(pred_real, device=self.device))
+                loss_D_fake = F.mse_loss(pred_fake, torch.zeros_like(pred_fake, device=self.device))
                 loss_D = loss_D_fake + loss_D_real
 
             loss_D.backward()
@@ -124,10 +122,10 @@ class AdvGAN_Attack:
 
         # optimize G
         for i in range(self.n_steps_G):
-            self.optimizer_G.zero_grad()
+            self.G.zero_grad()
 
             # the Hinge Loss part of L
-            perturbation_norm = torch.mean(torch.norm(perturbation.view(perturbation.shape[0], -1), 2, dim=1))
+            perturbation_norm = torch.mean(torch.norm(perturbation.reshape(perturbation.shape[0], -1), 2, dim=1))
             loss_hinge = torch.max(torch.zeros(1, device=self.device), perturbation_norm - self.c)
 
             # the Adv Loss part of L
@@ -146,7 +144,11 @@ class AdvGAN_Attack:
             logits_fake, pred_fake = self.D(adv_images)
 
             if self.is_relativistic:
-                loss_G_gan = (torch.mean((logits_real - torch.mean(logits_fake) + real)**2) + torch.mean((logits_fake - torch.mean(logits_real) - real)**2)) / 2
+                # loss_G_gan = F.binary_cross_entropy_with_logits(logits_fake.reshape(-1) - logits_real.reshape(-1), real)
+                loss_G_real = torch.mean((logits_real - torch.mean(logits_fake) + real)**2)
+                loss_G_fake = torch.mean((logits_fake - torch.mean(logits_real) - real)**2)
+                
+                loss_G_gan = (loss_G_real + loss_G_fake) / 2
             else:
                 loss_G_gan = F.mse_loss(pred_fake, torch.ones_like(pred_fake, device=self.device))
 

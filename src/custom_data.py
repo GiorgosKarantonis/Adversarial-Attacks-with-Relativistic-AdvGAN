@@ -4,6 +4,9 @@ import numpy as np
 import pandas as pd
 from PIL import Image
 
+import torch
+import torchvision
+import torchvision.transforms as transforms
 from torch.utils.data import Dataset
 
 
@@ -46,4 +49,21 @@ def split_dataset(dataset, test_size=.1, shuffle=True):
     
     return indices[split:], indices[:split]
 
+
+class NormalizeInverse(object):
+    def __init__(self, mean, std):
+        self.mean = mean
+        self.std = std
+
+    def __call__(self, tensor):
+        invert_norm = transforms.Normalize(
+            mean=[-m_elem/s_elem for m_elem, s_elem in zip(self.mean, self.std)], 
+            std=[1/elem for elem in self.std]
+        )
+        return invert_norm(tensor)
+        
+        # for channel, m, s in zip(tensor, self.mean, self.std):
+        #     channel.mul_(s).add_(m)
+        
+        # return tensor
 

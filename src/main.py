@@ -112,15 +112,10 @@ def init_params(target):
         target_model = m.inception_v3(pretrained=True).to(device)
         target_model.eval()
 
-        # transform = transforms.Compose([
-        #                     transforms.Resize(299), 
-        #                     transforms.ToTensor(), 
-        #                     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-        #                 ])
-
         transform = transforms.Compose([
                             transforms.Resize(299), 
-                            transforms.ToTensor()
+                            transforms.ToTensor(), 
+                            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
                         ])
 
         dataset = cd.HighResolutionDataset('./datasets/high_resolution/img', transform=transform)
@@ -198,9 +193,18 @@ def test_attack_performance(target, dataloader, mode, adv_GAN, target_model, bat
         img_np.append(img.detach().permute(0, 2, 3, 1).cpu().numpy())
         adv_img_np.append(adv_img.detach().permute(0, 2, 3, 1).cpu().numpy())
 
+
         print('Saving images for batch {} out of {}'.format(i+1, len(dataloader)))
         for j in range(adv_img.shape[0]):
-            save_image(adv_img[j], './results/examples/{}/{}/example_{}_{}.png'.format(target, mode, i, j))
+            cur_img = adv_img[j].detach()
+            
+            if target == 'HighResolution':
+                inv_norm = cd.NormalizeInverse(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+                cur_img = inv_norm(img[j])
+
+                save_image(cur_img + perturbation[j], './results/examples/{}/{}/example_{}_{}.png'.format(target, mode, i, j))
+            else:
+                save_image(cur_img, './results/examples/{}/{}/example_{}_{}.png'.format(target, mode, i, j))
 
 
     true_labels = np.concatenate(true_labels, axis=0)

@@ -11,25 +11,21 @@ I've also adapted the [Relativistic Average LSGAN (RaLSGAN)](https://arxiv.org/a
 increase the performance of the original AdvGAN both in terms of accuracy and perceptual similarity of the adversarial 
 examples to the original ones. 
 
-| Dataset       | Model                | AdvGAN (paper) | AdvGAN (implementation) | AdvRaLSGAN |
-|:-------------:|:--------------------:|:--------------:|:-----------------------:|:----------:|
-| MNIST         | Naturally Trained    | -              | **85.49%**              | 89.76%     |
-| MNIST         | Adversarially Trained| -              | 98.12%                  | **97.97%** |
-| MNIST         | Secret Model         | **92.76%**     | 98.12%                  | **97.96%** |
-| CIFAR-10      | Naturally Trained    | -              | 84.14%                  | **81.77%** |
-| CIFAR-10      | Adversarially Trained| -              | 86.80%                  | **86.64%** |
-| CIFAR-10      | Secret Model         | -              | 86.60%                  | **86.33%** |
-| HighResolution| Inception v3         | **0%**         | 70%                     | 70%        |
+| Dataset                          | Target Model         | AdvGAN (paper) | AdvGAN (implementation) | AdvRaLSGAN |
+|:--------------------------------:|:--------------------:|:--------------:|:-----------------------:|:----------:|
+| MNIST *(black-box)*              | Naturally Trained    | -              | **85.49%**              | 89.76%     |
+| MNIST *(black-box)*              | Adversarially Trained| -              | 98.12%                  | **97.97%** |
+| MNIST *(black-box)*              | Secret Model         | **92.76%**     | 98.12%                  | **97.96%** |
+| CIFAR-10 *(black-box)*           | Naturally Trained    | -              | 84.14%                  | **81.77%** |
+| CIFAR-10 *(black-box)*           | Adversarially Trained| -              | 86.80%                  | **86.64%** |
+| CIFAR-10 *(black-box)*           | Secret Model         | -              | 86.60%                  | **86.33%** |
+| HighResolution *(semi white-box)*| Inception v3         | **0%**         | 70%                     | 70%        |
 
-*Note 1: The scores for MNIST and CIFAR-10 correspond to the respective black-box MadryLab Challenges.*
+*Note 1 : I haven't implemented the distillation techniques for the black-box attacks. I believe that this is a big part of the reason for the performance difference between the original paper and my implementation.*
 
-*Note 2 : I haven't implemented the distillation techniques for the black-box attacks. I believe that this is a big part of the reason for the performance difference between the original paper and my implementation.*
+*Note 2: The score of Inception v3 on pristine data was ~95%.*
 
-*Note 3: The scores for HighResolution refer to semi white-box attacks.*
-
-*Note 4: The score of Inception v3 on pristine data was ~95%.*
-
-*Note 5: My guess for the scores for HighResolution being suboptimal is that in the authors of the AdvGAN paper either
+*Note 3: My guess for the scores for HighResolution being suboptimal is that in the authors of the AdvGAN paper either
 trained the AdvGAN also on data from ImageNet or they trained the target Inception v3 model from scratch only on the NIPS 2017 
 Adversarial Learning challenges dataset; I plan to do further work on that in the future.*
 
@@ -63,7 +59,7 @@ this is the only file you'll need to modify 🙂.
 *	`AdvGAN_epochs` : The number of epochs for AdvGAN's training. 
 *	`AdvGAN_learning_rate` : The learning rate for training AdvGAN. 
 *	`maximum_perturbation_allowed` : The maximum change allowed in the value of a single pixel. If set to `"Auto"`, it will be 
-`0.3` in a scale of `0-1` for `MNIST`, `8` in a scale of `0-255` for `CIFAR10` and `0.01` for `HighResolution`. 
+`0.3` on a scale of `0-1` for `MNIST`, `8` on a scale of `0-255` for `CIFAR10` and `0.01` for `HighResolution`. 
 *	`alpha` : The weight of the GAN Loss in the total loss. 
 *	`beta` : The weight of the hinge loss in the total loss. 
 *	`gamma` : The weight of the adversarial loss in the total loss. 
@@ -94,17 +90,17 @@ First you have to do the following:
 * Copy them in `datasets/high_resolution`
 * Rename `datasets/high_resolution/images` to `datasets/high_resolution/img`
 
-When you're done with follow the same steps as for MNIST and CIFAR-10. 
+When you're done follow the same steps as for MNIST and CIFAR-10. 
 
 
 ### How to test on the MadryLab Challenges
-MadryLab has created challenge for Adversarial Attacks in both the [MNIST](https://github.com/MadryLab/mnist_challenge) 
+MadryLab has created challenges for Adversarial Attacks in both the [MNIST](https://github.com/MadryLab/mnist_challenge) 
 and the [CIFAR-10](https://github.com/MadryLab/cifar10_challenge) dataset. Because their implementation is in Tensorflow, 
 I've modified the `run_attack.py` file to also work with the outputs of this PyTorch repo. 
 
 #### In order to setup the challenges
 
-* Fork or download the MadryLab Challenges repos (probably we don't need the full repos but just to be sure). 
+* Fork or download the MadryLab Challenges' repos (probably we don't need the full repos but just to be sure). 
 * Get their pretrained checkpoints using `python3 fetch_model.py` following the instructions in the respective repos. 
 * Copy all the files of the MNIST repo, **apart from the `run_attack.py`**, in `src/MadryLab_Challenge/MNIST/`
 * Copy all the files from the CIFAR-10 repo, **apart from the `run_attack.py`**, in `src/MadryLab_Challenge/CIFAR10/`
@@ -114,6 +110,5 @@ I've modified the `run_attack.py` file to also work with the outputs of this PyT
 * If you just trained AdvGAN on the MNIST dataset, copy `src/npy` to `src/MadryLab_Challenge/MNIST/`. Otherwise, if you just 
 trained AdvGAN on the CIFAR-10 dataset, copy `src/npy` to `src/MadryLab_Challenge/CIFAR10/`. 
 * Open `src/MadryLab_Challenge/{Dataset}/config.json` and specify in `model_dir` if you want to test against the Naturally 
-trained, the Adversarially trained or the Secret model. You can check instructions in the challenges' repos for the suitable 
-values. 
+trained, the Adversarially trained or the Secret model. You can check instructions in the challenges' repos for the appropriate values. 
 * Run the `run_attack.py` script. 

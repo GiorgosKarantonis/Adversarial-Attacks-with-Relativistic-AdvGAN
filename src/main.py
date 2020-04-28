@@ -104,8 +104,7 @@ def init_params(target):
         test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
     elif target == 'HighResolution':
         batch_size = 70
-        # l_inf_bound = .01 if L_INF_BOUND == 'Auto' else L_INF_BOUND
-        l_inf_bound = 100 if L_INF_BOUND == 'Auto' else L_INF_BOUND
+        l_inf_bound = .01 if L_INF_BOUND == 'Auto' else L_INF_BOUND
         
         n_labels = 1000
         n_channels = 3

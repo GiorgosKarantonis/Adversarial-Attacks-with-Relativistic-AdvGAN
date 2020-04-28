@@ -16,18 +16,20 @@ examples to the original ones.
 | MNIST         | Naturally Trained    | -              | **85.49%**              | 89.76%     |
 | MNIST         | Adversarially Trained| -              | 98.12%                  | **97.97%** |
 | MNIST         | Secret Model         | **92.76%**     | 98.12%                  | **97.96%** |
-| CIFAR-10      | Naturally Trained    | -              | 85.49%                  | **89.76%** |
-| CIFAR-10      | Adversarially Trained| -              | 98.12%                  | **97.97%** |
-| CIFAR-10      | Secret Model         | -              | 98.12%                  | **97.96%** |
+| CIFAR-10      | Naturally Trained    | -              | 84.14%                  | **81.77%** |
+| CIFAR-10      | Adversarially Trained| -              | 86.80%                  | **86.64%** |
+| CIFAR-10      | Secret Model         | -              | 86.60%                  | **86.33%** |
 | HighResolution| Inception v3         | **0%**         | 70%                     | 70%        |
 
 *Note 1: The scores for MNIST and CIFAR-10 correspond to the respective black-box MadryLab Challenges.*
 
-*Note 2: The scores for HighResolution refer to semi white-box attacks.*
+*Note 2 : I haven't implemented the distillation techniques for the black-box attacks. I believe that this is a big part of the reason for the performance difference between the original paper and my implementation.*
 
-*Note 3: The score of Inception v3 on pristine data was ~95%.*
+*Note 3: The scores for HighResolution refer to semi white-box attacks.*
 
-*Note 4: My guess for the scores for HighResolution being suboptimal is that in the authors of the AdvGAN paper either
+*Note 4: The score of Inception v3 on pristine data was ~95%.*
+
+*Note 5: My guess for the scores for HighResolution being suboptimal is that in the authors of the AdvGAN paper either
 trained the AdvGAN also on data from ImageNet or they trained the target Inception v3 model from scratch only on the NIPS 2017 
 Adversarial Learning challenges dataset; I plan to do further work on that in the future.*
 

@@ -1,5 +1,5 @@
 {
-	"comment" : "Setting for Target Model", 
+	"comment" : "Settings for Target Model", 
 
 	"target_dataset" : "HighResolution", 
 	"target_learning_rate" : 0.001, 

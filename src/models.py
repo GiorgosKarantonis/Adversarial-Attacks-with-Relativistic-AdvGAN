@@ -1,3 +1,5 @@
+# modified from https://github.com/mathcbc/advGAN_pytorch/blob/master/models.py
+
 import torch
 import torch.nn as nn
 import torch.nn.init as init
@@ -52,6 +54,7 @@ class Discriminator(nn.Module):
             nn.Conv2d(32, 1, 1),
             # 32*1*1
         ]
+        
         self.model = nn.Sequential(*model)
         self.sigmoid = nn.Sigmoid()
 
@@ -62,7 +65,7 @@ class Discriminator(nn.Module):
 
 
 class Generator(nn.Module):
-    def __init__(self, gen_input_nc, image_nc):
+    def __init__(self, gen_input_nc, image_nc, target='Auto'):
         super(Generator, self).__init__()
 
         encoder_lis = [
@@ -86,19 +89,34 @@ class Generator(nn.Module):
                        ResnetBlock(32),
                        ResnetBlock(32),]
 
-        decoder_lis = [
-            nn.ConvTranspose2d(32, 16, kernel_size=3, stride=2, padding=0, bias=False),
-            nn.InstanceNorm2d(16),
-            nn.ReLU(),
-            # state size. 16 x 11 x 11
-            nn.ConvTranspose2d(16, 8, kernel_size=3, stride=2, padding=0, bias=False),
-            nn.InstanceNorm2d(8),
-            nn.ReLU(),
-            # state size. 8 x 23 x 23
-            nn.ConvTranspose2d(8, image_nc, kernel_size=6, stride=1, padding=0, bias=False),
-            nn.Tanh()
-            # state size. image_nc x 28 x 28
-        ]
+        if target == 'HighResolution':
+            decoder_lis = [
+                nn.ConvTranspose2d(32, 16, kernel_size=3, stride=2, padding=0, bias=False),
+                nn.InstanceNorm2d(16),
+                nn.ReLU(),
+                # state size. 16 x 11 x 11
+                nn.ConvTranspose2d(16, 8, kernel_size=3, stride=2, padding=0, bias=False),
+                nn.InstanceNorm2d(8),
+                nn.ReLU(),
+                # state size. 8 x 23 x 23
+                nn.ConvTranspose2d(8, image_nc, kernel_size=5, stride=1, padding=0, bias=False),
+                # nn.Tanh()
+                # state size. image_nc x 28 x 28
+            ]
+        else:
+            decoder_lis = [
+                nn.ConvTranspose2d(32, 16, kernel_size=3, stride=2, padding=0, bias=False),
+                nn.InstanceNorm2d(16),
+                nn.ReLU(),
+                # state size. 16 x 11 x 11
+                nn.ConvTranspose2d(16, 8, kernel_size=3, stride=2, padding=0, bias=False),
+                nn.InstanceNorm2d(8),
+                nn.ReLU(),
+                # state size. 8 x 23 x 23
+                nn.ConvTranspose2d(8, image_nc, kernel_size=6, stride=1, padding=0, bias=False),
+                nn.Tanh()
+                # state size. image_nc x 28 x 28
+            ]
 
         self.encoder = nn.Sequential(*encoder_lis)
         self.bottle_neck = nn.Sequential(*bottle_neck_lis)

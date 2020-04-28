@@ -1,3 +1,6 @@
+# modified from https://github.com/mathcbc/advGAN_pytorch/blob/master/advGAN.py
+
+
 import matplotlib
 matplotlib.use('Agg')
 
@@ -71,7 +74,7 @@ class AdvGAN_Attack:
 
         self.is_relativistic = is_relativistic
 
-        self.G = models.Generator(n_channels, n_channels).to(device)
+        self.G = models.Generator(n_channels, n_channels, target).to(device)
         self.D = models.Discriminator(n_channels).to(device)
 
         # initialize all weights
@@ -93,7 +96,6 @@ class AdvGAN_Attack:
         # optimize D
         for i in range(self.n_steps_D):
             perturbation = self.G(x)
-            perturbation = perturbation[:, :, :x.shape[2], :x.shape[3]]
 
             adv_images = torch.clamp(perturbation, -self.l_inf_bound, self.l_inf_bound) + x
             adv_images = torch.clamp(adv_images, 0, 1)
@@ -104,10 +106,12 @@ class AdvGAN_Attack:
             logits_fake, pred_fake = self.D(adv_images.detach())
 
             real = torch.ones_like(pred_real, device=self.device)
-            fake = real = torch.zeros_like(pred_fake, device=self.device)
+            fake = torch.zeros_like(pred_fake, device=self.device)
+
+
 
             if self.is_relativistic:
-                # loss_D = F.binary_cross_entropy_with_logits(logits_real.reshape(-1) - logits_fake.reshape(-1), real)
+                # loss_D = F.binary_cross_entropy_with_logits(torch.squeeze(logits_real - logits_fake), real)
                 loss_D_real = torch.mean((logits_real - torch.mean(logits_fake) - real)**2)
                 loss_D_fake = torch.mean((logits_fake - torch.mean(logits_real) + real)**2)
 
@@ -125,7 +129,7 @@ class AdvGAN_Attack:
             self.G.zero_grad()
 
             # the Hinge Loss part of L
-            perturbation_norm = torch.mean(torch.norm(perturbation.reshape(perturbation.shape[0], -1), 2, dim=1))
+            perturbation_norm = torch.mean(torch.norm(perturbation.view(perturbation.shape[0], -1), 2, dim=1))
             loss_hinge = torch.max(torch.zeros(1, device=self.device), perturbation_norm - self.c)
 
             # the Adv Loss part of L
@@ -133,10 +137,10 @@ class AdvGAN_Attack:
             probs_model = F.softmax(logits_model, dim=1)
             onehot_labels = torch.eye(self.n_labels, device=self.device)[labels]
 
-            # C&W loss function
-            real_class = torch.sum(onehot_labels * probs_model, dim=1)
-            target_class, _ = torch.max((1 - onehot_labels) * probs_model - onehot_labels * 10000, dim=1)
-            loss_adv = torch.max(real_class - target_class, self.kappa * torch.ones_like(target_class))
+            # C&W loss
+            real_class_prob = torch.sum(onehot_labels * probs_model, dim=1)
+            target_class_prob, _ = torch.max((1 - onehot_labels) * probs_model - onehot_labels * 10000, dim=1)
+            loss_adv = torch.max(real_class_prob - target_class_prob, self.kappa * torch.ones_like(target_class_prob))
             loss_adv = torch.sum(loss_adv)
 
             # the GAN Loss part of L
@@ -144,7 +148,7 @@ class AdvGAN_Attack:
             logits_fake, pred_fake = self.D(adv_images)
 
             if self.is_relativistic:
-                # loss_G_gan = F.binary_cross_entropy_with_logits(logits_fake.reshape(-1) - logits_real.reshape(-1), real)
+                # loss_G_gan = F.binary_cross_entropy_with_logits(torch.squeeze(logits_fake - logits_real), real)
                 loss_G_real = torch.mean((logits_real - torch.mean(logits_fake) + real)**2)
                 loss_G_fake = torch.mean((logits_fake - torch.mean(logits_real) - real)**2)
                 

@@ -90,7 +90,7 @@ def init_params(target):
         test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
     elif target == 'CIFAR10':
         batch_size = 400
-        l_inf_bound = 8 if L_INF_BOUND == 'Auto' else L_INF_BOUND
+        l_inf_bound = 8/255 if L_INF_BOUND == 'Auto' else L_INF_BOUND/255
 
         n_labels = 10
         n_channels = 3
@@ -104,8 +104,9 @@ def init_params(target):
         test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
     elif target == 'HighResolution':
         batch_size = 70
-        l_inf_bound = .01 if L_INF_BOUND == 'Auto' else L_INF_BOUND
-
+        # l_inf_bound = .01 if L_INF_BOUND == 'Auto' else L_INF_BOUND
+        l_inf_bound = 100 if L_INF_BOUND == 'Auto' else L_INF_BOUND
+        
         n_labels = 1000
         n_channels = 3
 
@@ -140,8 +141,10 @@ def train_target_model(target, target_model, epochs, train_dataloader, test_data
         loss_epoch = 0
 
         for i, data in enumerate(train_dataloader, 0):
+
             train_imgs, train_labels = data
             train_imgs, train_labels = train_imgs.to(device), train_labels.to(device)
+
             logits_model = target_model(train_imgs)
             criterion = F.cross_entropy(logits_model, train_labels)
             loss_epoch += criterion
@@ -180,7 +183,6 @@ def test_attack_performance(target, dataloader, mode, adv_GAN, target_model, bat
         img, true_label = img.to(device), true_label.to(device)
         
         perturbation = adv_GAN(img)
-        perturbation = perturbation[:, :, :img.shape[2], :img.shape[3]]
 
         adv_img = torch.clamp(perturbation, -l_inf_bound, l_inf_bound) + img
         adv_img = torch.clamp(adv_img, 0, 1)
@@ -286,7 +288,7 @@ advGAN.train(train_dataloader, EPOCHS)
 # load the trained AdvGAN
 print('\nLOADING TRAINED ADVGAN!')
 adv_GAN_path = './checkpoints/AdvGAN/G_epoch_{}.pth'.format(EPOCHS)
-adv_GAN = models.Generator(n_channels, n_channels).to(device)
+adv_GAN = models.Generator(n_channels, n_channels, TARGET).to(device)
 adv_GAN.load_state_dict(torch.load(adv_GAN_path))
 adv_GAN.eval()
 

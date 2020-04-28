@@ -32,10 +32,10 @@ def run_attack(checkpoint, img, x_adv, labels, pred_labels, epsilon):
 
   num_batches = int(math.ceil(num_eval_examples / eval_batch_size))
   total_corr = 0
-
+  
   l_inf = np.amax(np.abs(img - x_adv))
 
-  if l_inf > epsilon + 0.0001:
+  if l_inf > epsilon/255 + 0.0001:
     print('maximum perturbation found: {}'.format(l_inf))
     print('maximum perturbation allowed: {}'.format(epsilon))
     return

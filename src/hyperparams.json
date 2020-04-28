@@ -1,9 +1,9 @@
 {
 	"comment" : "Setting for Target Model", 
 
-	"target_dataset" : "MNIST", 
+	"target_dataset" : "HighResolution", 
 	"target_learning_rate" : 0.001, 
-	"target_model_epochs" : 40, 
+	"target_model_epochs" : 50, 
 
 
 
@@ -12,12 +12,12 @@
 	"AdvGAN_epochs" : 60, 
 	"AdvGAN_learning_rate" : 0.001, 
 	"maximum_perturbation_allowed" : "Auto", 
-	"alpha" : 10, 
+	"alpha" : 5, 
 	"beta" : 1, 
 	"gamma" : 1, 
 	"kappa" : 0, 
 	"c" : 0.1, 
 	"D_number_of_steps_per_batch" : 1, 
 	"G_number_of_steps_per_batch" : 1, 
-	"is_relativistic" : "False"
+	"is_relativistic" : "True"
 }

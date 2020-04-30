@@ -21,13 +21,13 @@ examples to the original ones.
 | CIFAR-10 *(black-box)*           | Secret Model         | -              | 86.60%                  | **86.33%** |
 | HighResolution *(semi white-box)*| Inception v3         | **0%**         | 70%                     | 70%        |
 
-*Note 1 : I haven't implemented the distillation techniques for the black-box attacks. I believe that this is a big part of the reason for the performance difference between the original paper and my implementation.*
+*Note 1 : I haven't implemented the distillation techniques for the black-box attacks and I believe that this is a big part of the reason for the performance difference between the original paper and my implementation.*
 
 *Note 2: The score of Inception v3 on pristine data was ~95%.*
 
-*Note 3: My guess for the scores for HighResolution being suboptimal is that in the authors of the AdvGAN paper either
+*Note 3: My guess for the scores for HighResolution being suboptimal is that the authors of the AdvGAN paper either
 trained the AdvGAN also on data from ImageNet or they trained the target Inception v3 model from scratch only on the NIPS 2017 
-Adversarial Learning challenges dataset; I plan to do further work on that in the future.*
+Adversarial Learning challenges dataset; I plan to work on that in the future.*
 
 ![mnist](https://github.com/GiorgosKarantonis/Adversarial-Attacks/blob/master/img/mnist.png)
 
@@ -59,15 +59,15 @@ this is the only file you'll need to modify 🙂.
 *	`AdvGAN_epochs` : The number of epochs for AdvGAN's training. 
 *	`AdvGAN_learning_rate` : The learning rate for training AdvGAN. 
 *	`maximum_perturbation_allowed` : The maximum change allowed in the value of a single pixel. If set to `"Auto"`, it will be 
-`0.3` on a scale of `0-1` for `MNIST`, `8` on a scale of `0-255` for `CIFAR10` and `0.01` for `HighResolution`. 
+`0.3` on a scale of `0-1` for `MNIST`, `8` on a scale of `0-255` for `CIFAR10` and `0.01` on a scale of `0-1` for `HighResolution`. 
 *	`alpha` : The weight of the GAN Loss in the total loss. 
 *	`beta` : The weight of the hinge loss in the total loss. 
 *	`gamma` : The weight of the adversarial loss in the total loss. 
-*	`kappa` : The constant used in the CW loss that is used for estimating the adversarial loss. 
+*	`kappa` : The constant used in the CW loss. The CW loss is used for capturing the adversarial loss. 
 *	`c` : The constant used in the hinge loss. 
-*	`D_number_of_steps_per_batch` : Number of updates for the Discriminator before the Generator gets updated. 
-*	`G_number_of_steps_per_batch` : Number of updates for the Generator before the Discriminator gets updated. 
-*	`is_relativistic` : If it is set to `True`, the cost function for the AdvGAN will be the Relativistic Average Least Squares 
+*	`D_number_of_steps_per_batch` : The number of updates for the Discriminator before the Generator gets updated. 
+*	`G_number_of_steps_per_batch` : The number of updates for the Generator before the Discriminator gets updated. 
+*	`is_relativistic` : If set to `True`, the cost function for the AdvGAN will be the Relativistic Average Least Squares 
 loss. Otherwise, the training will be on the Least Squares objective as in the original paper. 
 
 
@@ -80,21 +80,23 @@ To run the code simply specify the hyperparameters you want and run `python3 mai
 Since I haven't uploaded the checkpoints for the target models, this will first train the target you specified in the 
 `hyperparameters.json` and then the AdvGAN (or the AdvRaLSGAN if you set `is_relativistic=True`). 
 
-All the losses and the produced adversarial examples are now in the new folder `src/results`. 
+All the losses and the produced adversarial examples are now saved in the new folder `src/results`. 
+
+A new folder called `src/npy` has also been created. The four numpy files are saved in it have the original images, the adversarial images, the true labels and the labels predicted by the target. Keep in mind that in some cases, like for the `HighResolution` dataset, you have need to denormalize the images if you want them to look to look as in their original form. You can use the `NormalizeInverse` class from the `custom_data.py` script for this task. 
 
 ### Run the code for High Resolution Images
 First you have to do the following: 
 
 * Download the dataset from 
 [NIPS 2017 Adversarial Learning challenges](https://www.kaggle.com/google-brain/nips-2017-adversarial-learning-development-set). 
-* Copy them in `datasets/high_resolution`
+* Copy everything in `datasets/high_resolution`
 * Rename `datasets/high_resolution/images` to `datasets/high_resolution/img`
 
-When you're done follow the same steps as for MNIST and CIFAR-10. 
+When you're done, follow the same steps as for MNIST and CIFAR-10. 
 
 
 ### How to test on the MadryLab Challenges
-MadryLab has created challenges for Adversarial Attacks in both the [MNIST](https://github.com/MadryLab/mnist_challenge) 
+MadryLab has created challenges for Adversarial Attacks for both the [MNIST](https://github.com/MadryLab/mnist_challenge) 
 and the [CIFAR-10](https://github.com/MadryLab/cifar10_challenge) dataset. Because their implementation is in Tensorflow, 
 I've modified the `run_attack.py` file to also work with the outputs of this PyTorch repo. 
 

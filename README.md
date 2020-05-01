@@ -37,7 +37,7 @@ Adversarial Learning challenges dataset; I plan to work on that in the future.*
 
 *The following modules are required:*
 
-* `cuda/10.1` *(if you want to run the code on GPU)*
+* `cuda/10.1` *(if you want to run the code on GPU, which is highly recommended)*
 
 * `python3/3.6.5`
 
@@ -45,8 +45,9 @@ Adversarial Learning challenges dataset; I plan to work on that in the future.*
 
 * `tensorflow/1.13.1` *(only for the MadryLab Challenge)*
 
+Also, all the dependencies can be installed using the requirements.txt file. 
 
-All the hyperparameters are defined in `hyperparameters.json`. If you want to simply experiment with the model 
+Finally, all the hyperparameters are defined in `hyperparameters.json`. If you want to simply experiment with the model 
 this is the only file you'll need to modify 🙂. 
 
 **The available hyperparameters are the following:**

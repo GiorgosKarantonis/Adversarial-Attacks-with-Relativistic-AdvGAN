@@ -3,13 +3,9 @@
 
 ## Introduction
 
-Adversarial examples are a very exciting ascpect of Deep Learning! This repo contains a PyTorch implementation of the 
-[AdvGAN](https://arxiv.org/abs/1801.02610) model for MNIST, CIFAR-10 and the 
-[NIPS 2017 Adversarial Learning challenges dataset](https://www.kaggle.com/google-brain/nips-2017-adversarial-learning-development-set). 
+Adversarial examples are a very exciting ascpect of Deep Learning and have shown that by making inconceivable, to humans, changes in the data we can break the most powerful neural networks! 
 
-I've also adapted the [Relativistic Average LSGAN (RaLSGAN)](https://arxiv.org/abs/1807.00734) and shown that it is able to 
-increase the performance of the original AdvGAN both in terms of accuracy and perceptual similarity of the adversarial 
-examples to the original ones. 
+This repo contains a PyTorch implementation of the [AdvGAN](https://arxiv.org/abs/1801.02610) model for MNIST, CIFAR-10 and the [NIPS 2017 Adversarial Learning challenges dataset](https://www.kaggle.com/google-brain/nips-2017-adversarial-learning-development-set). I've also adapted the [Relativistic Average LSGAN (RaLSGAN)](https://arxiv.org/abs/1807.00734) and **have managed to increase the performance of the original AdvGAN both in terms of accuracy and perceptual similarity of the adversarial examples to the original ones**! 
 
 | Dataset                          | Target Model         | AdvGAN (paper) | AdvGAN (implementation) | AdvRaLSGAN |
 |:--------------------------------:|:--------------------:|:--------------:|:-----------------------:|:----------:|

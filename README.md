@@ -23,11 +23,11 @@ This repo contains a PyTorch implementation of the [AdvGAN](https://arxiv.org/ab
 
 *Note 3: My guess for the scores for HighResolution being suboptimal is that the authors of the AdvGAN paper either
 trained the AdvGAN also on data from ImageNet or they trained the target Inception v3 model from scratch only on the NIPS 2017 
-Adversarial Learning challenges dataset; I plan to work on that in the future.*
+Adversarial Learning challenges dataset; I may work on that in the future.*
 
-![mnist](https://github.com/GiorgosKarantonis/Adversarial-Attacks/blob/master/img/mnist.png)
+![mnist](https://github.com/GiorgosKarantonis/images/blob/master/AdvRaGAN/mnist.png)
 
-![high_res](https://github.com/GiorgosKarantonis/Adversarial-Attacks/blob/master/img/high_res.png)
+![high_res](https://github.com/GiorgosKarantonis/images/blob/master/AdvRaGAN/high_res.png)
 
 ## Overview
 

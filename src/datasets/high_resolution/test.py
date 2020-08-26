@@ -1,3 +1,19 @@
+# Adversarial Attacks with AdvGAN and AdvRaGAN
+# Copyright(C) 2020 Georgios (Giorgos) Karantonis
+#
+# This program is free software: you can redistribute it and / or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 import os
 import shutil
 
@@ -81,31 +97,3 @@ test_sampler = SubsetRandomSampler(test_set)
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=128, shuffle=False)
 train_dataloader = torch.utils.data.DataLoader(dataset, batch_size=128, shuffle=False, sampler=train_sampler)
 test_dataloader = torch.utils.data.DataLoader(dataset, batch_size=128, shuffle=False, sampler=test_sampler)
-
-
-# n_correct = 0
-# for i, data in enumerate(dataloader, 0):
-# 	img, true_label, target_label = data
-# 	# img, true_label, target_label = img.to(device), true_label.to(device)
-
-# 	output = model(img)
-# 	# output = F.softmax(logits, 0)
-
-# 	pred_label = torch.argmax(output, 1)
-# 	n_correct += torch.sum(pred_label == true_label, 0)
-
-# 	print('\n{}\n'.format(pred_label))
-# 	print('\n{}\n'.format(true_label))
-
-# 	print('Finished batch: {}/{}'.format(i+1, len(dataloader)))
-
-# print('\nCorrect: {}'.format(n_correct.item()))
-# print('Accuracy: {}%\n'.format(100 * n_correct.item()/len(dataset)))
-
-
-
-
-
-
-
-

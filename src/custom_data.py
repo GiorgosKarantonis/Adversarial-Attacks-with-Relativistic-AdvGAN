@@ -1,3 +1,19 @@
+# Adversarial Attacks with AdvGAN and AdvRaGAN
+# Copyright(C) 2020 Georgios (Giorgos) Karantonis
+#
+# This program is free software: you can redistribute it and / or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 import os
 
 import numpy as np
@@ -61,9 +77,3 @@ class NormalizeInverse(object):
             std=[1/elem for elem in self.std]
         )
         return invert_norm(tensor)
-        
-        # for channel, m, s in zip(tensor, self.mean, self.std):
-        #     channel.mul_(s).add_(m)
-        
-        # return tensor
-

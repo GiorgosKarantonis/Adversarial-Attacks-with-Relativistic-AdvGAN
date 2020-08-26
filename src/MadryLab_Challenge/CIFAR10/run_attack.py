@@ -1,3 +1,5 @@
+# downloaded from https://github.com/MadryLab/cifar10_challenge
+
 """Evaluates a model against examples from a .npy file as specified
    in config.json"""
 from __future__ import absolute_import
